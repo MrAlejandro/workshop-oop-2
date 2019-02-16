@@ -10,7 +10,7 @@ class App
     {
         $args = Docopt::handle($this->getDoc(), ['version' => 'GeoLocator 0.1.0']);
         $geoLocator = new GeoLocator();
-        $geoData = $geoLocator->getLocation($args->args['<ip>'] ?: null);
+        $geoData = $geoLocator->getLocation($args->args['<ip>']);
         return $geoData;
     }
 
