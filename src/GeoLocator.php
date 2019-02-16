@@ -14,7 +14,7 @@ class GeoLocator
         $this->locator = $locator ?: new IpApi();
     }
 
-    public function getLocation(string $ip = null)
+    public function getLocation(string $ip = null): IpMetaInfo
     {
         return $this->locator->getLocation($ip);
     }

@@ -12,10 +12,10 @@ if (file_exists($autoloadPath1)) {
 
 $geoData = (new \App\App())->run();
 $preparedData = [
-    "Your country is: {$geoData['country']}",
-    "Your region is: {$geoData['region']}",
-    "Your city is: {$geoData['city']}",
-    "Your timezone is: {$geoData['timezone']}",
+    "Your country is: {$geoData->country}",
+    "Your region is: {$geoData->region}",
+    "Your city is: {$geoData->city}",
+    "Your timezone is: {$geoData->timezone}",
     ''
 ];
 

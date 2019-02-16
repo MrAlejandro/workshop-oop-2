@@ -5,8 +5,9 @@ namespace App\Tests;
 use PHPUnit\Framework\TestCase;
 
 use App\GeoLocator;
-use App\LocationProvider\IpApi;
+use App\IpMetaInfo;
 use RuntimeException;
+use App\LocationProvider\IpApi;
 
 class AppTest extends TestCase
 {
@@ -22,7 +23,7 @@ class AppTest extends TestCase
 
     public function testGetDefaultLocation()
     {
-        $expected = [
+        $locationData = [
             'country'   => 'Russia',
             'region'    => 'Perm',
             'city'      => 'Perm',
@@ -31,12 +32,13 @@ class AppTest extends TestCase
             'longitude' => '56.3167',
         ];
 
+        $expected = new IpMetaInfo($locationData);
         $this->assertEquals($expected, $this->geoLocator->getLocation());
     }
 
     public function testGetLocationByIp()
     {
-        $expected = [
+        $locationData = [
             'country'   => 'United States',
             'region'    => 'New Jersey',
             'city'      => 'North Bergen',
@@ -45,6 +47,7 @@ class AppTest extends TestCase
             'longitude' => '-74.0241',
         ];
 
+        $expected = new IpMetaInfo($locationData);
         $ip = '206.189.199.81';
         $this->assertEquals($expected, $this->geoLocator->getLocation($ip));
     }

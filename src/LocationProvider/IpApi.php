@@ -5,6 +5,7 @@ namespace App\LocationProvider;
 use App\DataLoader\HttpDataLoader;
 use App\DataLoader\HttpLoader;
 use RuntimeException;
+use App\IpMetaInfo;
 
 class IpApi implements Locator
 {
@@ -18,15 +19,15 @@ class IpApi implements Locator
         $this->locationLoader = $locationLoader ?: new HttpDataLoader();
     }
 
-    public function getLocation(string $ip = null): array
+    public function getLocation(string $ip = null): IpMetaInfo
     {
         $body = $this->getResponseBody($ip);
         if (!isset($body['status']) || $body['status'] === self::RESPONSE_STATUS_FAIL) {
             throw new RuntimeException('Cannot detect location');
         }
 
-        $normalizedLocation = $this->getNormalizedLocation($body);
-        return $normalizedLocation;
+        $metaInfo = $this->prepareMetaInfo($body);
+        return $metaInfo;
     }
 
     protected function getResponseBody($ip): array
@@ -43,9 +44,9 @@ class IpApi implements Locator
         return $ip ? self::SERVICE_URL . $ip : self::SERVICE_URL;
     }
 
-    protected function getNormalizedLocation($response)
+    protected function prepareMetaInfo($response): IpMetaInfo
     {
-        return [
+        $locationData = [
             'country'   => $response['country'] ?? '',
             'region'    => $response['regionName'] ?? '',
             'city'      => $response['city'] ?? '',
@@ -53,5 +54,8 @@ class IpApi implements Locator
             'latitude'  => $response['lat'] ?? '',
             'longitude' => $response['lon'] ?? '',
         ];
+
+        $metaInfo = new IpMetaInfo($locationData);
+        return $metaInfo;
     }
 }
