@@ -46,12 +46,12 @@ class IpApi implements Locator
     protected function getNormalizedLocation($response)
     {
         return [
-            'country'   => isset($response['country']) ? $response['country'] : '',
-            'region'    => isset($response['regionName']) ? $response['regionName'] : '',
-            'city'      => isset($response['city']) ? $response['city'] : '',
-            'timezone'  => isset($response['timezone']) ? $response['timezone'] : '',
-            'latitude'  => isset($response['lat']) ? $response['lat'] : '',
-            'longitude' => isset($response['lon']) ? $response['lon'] : '',
+            'country'   => $response['country'] ?? '',
+            'region'    => $response['regionName'] ?? '',
+            'city'      => $response['city'] ?? '',
+            'timezone'  => $response['timezone'] ?? '',
+            'latitude'  => $response['lat'] ?? '',
+            'longitude' => $response['lon'] ?? '',
         ];
     }
 }
