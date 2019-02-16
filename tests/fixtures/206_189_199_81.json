@@ -1,0 +1,16 @@
+{
+    "as": "AS14061 DigitalOcean, LLC",
+    "city": "North Bergen",
+    "country": "United States",
+    "countryCode": "US",
+    "isp": "DigitalOcean, LLC",
+    "lat": 40.8054,
+    "lon": -74.0241,
+    "org": "Digital Ocean",
+    "query": "206.189.199.81",
+    "region": "NJ",
+    "regionName": "New Jersey",
+    "status": "success",
+    "timezone": "America/New_York",
+    "zip": "07047"
+}

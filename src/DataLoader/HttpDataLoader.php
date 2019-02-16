@@ -4,7 +4,7 @@ namespace App\DataLoader;
 
 use GuzzleHttp\Client;
 
-class HttpDataLoader implements Loader
+class HttpDataLoader implements HttpLoader
 {
     protected $client;
 
@@ -13,7 +13,7 @@ class HttpDataLoader implements Loader
         $this->client = new Client();
     }
 
-    public function get(string $url): string
+    public function getResponseBody(string $url): string
     {
         $response = $this->client->get($url);
         $responseBody = $response->getBody();

@@ -6,7 +6,6 @@ use App\LocationProvider\Locator;
 
 class GeoLocator
 {
-    protected $url;
     protected $locator;
 
     public function __construct(Locator $locator)
@@ -14,8 +13,8 @@ class GeoLocator
         $this->locator = $locator;
     }
 
-    public function getLocation()
+    public function getLocation(string $ip = null)
     {
-        return $this->locator->getLocation();
+        return $this->locator->getLocation($ip);
     }
 }

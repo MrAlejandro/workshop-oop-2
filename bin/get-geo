@@ -1,0 +1,22 @@
+#!/usr/bin/env php
+
+<?php
+$autoloadPath1 = __DIR__ . '/../../../autoload.php';
+$autoloadPath2 = __DIR__ . '/../vendor/autoload.php';
+
+if (file_exists($autoloadPath1)) {
+    require_once $autoloadPath1;
+} else {
+    require_once $autoloadPath2;
+}
+
+$geoData = (new \App\App())->run();
+$preparedData = [
+    "Your country is: {$geoData['country']}",
+    "Your region is: {$geoData['region']}",
+    "Your city is: {$geoData['city']}",
+    "Your timezone is: {$geoData['timezone']}",
+    ''
+];
+
+echo implode(PHP_EOL, $preparedData);

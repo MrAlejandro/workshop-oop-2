@@ -2,23 +2,48 @@
 
 namespace App\LocationProvider;
 
-use App\DataLoader\Loader;
+use App\DataLoader\HttpLoader;
+use RuntimeException;
 
 class IpApi implements Locator
 {
     protected const SERVICE_URL = 'http://ip-api.com/json/';
+    protected const RESPONSE_STATUS_FAIL = 'fail';
 
-    protected $client;
+    protected $locationLoader;
 
-    public function __construct(Loader $client)
+    public function __construct(HttpLoader $locationLoader)
     {
-        $this->client = $client;
+        $this->locationLoader = $locationLoader;
     }
 
     public function getLocation(string $ip = null): array
     {
-        $responseBody = $this->client->get(self::SERVICE_URL);
-        $response = json_decode($responseBody, true);
+        $body = $this->getResponseBody($ip);
+        if (!isset($body['status']) || $body['status'] === self::RESPONSE_STATUS_FAIL) {
+            throw new RuntimeException('Cannot detect location');
+        }
+
+        $normalizedLocation = $this->getNormalizedLocation($body);
+        return $normalizedLocation;
+    }
+
+    protected function getResponseBody($ip): array
+    {
+        $requestUrl = $this->prepareRequestUrl($ip);
+        $rawBody = $this->locationLoader->getResponseBody($requestUrl);
+        $body = json_decode($rawBody, true);
+
+        return $body;
+    }
+
+    protected function prepareRequestUrl($ip)
+    {
+        return $ip ? self::SERVICE_URL . $ip : self::SERVICE_URL;
+    }
+
+    protected function getNormalizedLocation($response)
+    {
         return [
             'country'   => isset($response['country']) ? $response['country'] : '',
             'region'    => isset($response['regionName']) ? $response['regionName'] : '',
