@@ -3,17 +3,13 @@
 namespace App;
 
 use Docopt;
-use App\LocationProvider\IpApi;
-use App\DataLoader\HttpDataLoader;
 
 class App
 {
     public function run()
     {
         $args = Docopt::handle($this->getDoc(), ['version' => 'GeoLocator 0.1.0']);
-        $dataLoader = new HttpDataLoader();
-        $dataProvider = new IpApi($dataLoader);
-        $geoLocator = new GeoLocator($dataProvider);
+        $geoLocator = new GeoLocator();
         $geoData = $geoLocator->getLocation($args->args['<ip>'] ?: null);
         return $geoData;
     }

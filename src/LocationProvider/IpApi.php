@@ -2,6 +2,7 @@
 
 namespace App\LocationProvider;
 
+use App\DataLoader\HttpDataLoader;
 use App\DataLoader\HttpLoader;
 use RuntimeException;
 
@@ -12,9 +13,9 @@ class IpApi implements Locator
 
     protected $locationLoader;
 
-    public function __construct(HttpLoader $locationLoader)
+    public function __construct(HttpLoader $locationLoader = null)
     {
-        $this->locationLoader = $locationLoader;
+        $this->locationLoader = $locationLoader ?: new HttpDataLoader();
     }
 
     public function getLocation(string $ip = null): array
